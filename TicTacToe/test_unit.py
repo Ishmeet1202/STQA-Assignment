@@ -1,18 +1,24 @@
 import unittest
 import pygame
-from main import screen
-from game_logic import TicTacToe
+import sys
+
+try:
+    from game_logic import TicTacToe
+except ImportError as e:
+    print(f"ImportError: {e}")
+    sys.exit(1)  # Exit if there's an import issue
 
 class TestTicTacToeUI(unittest.TestCase):
     def setUp(self):
         """Initialize Pygame and create a game instance before each test"""
         pygame.init()
         self.game = TicTacToe()
+        self.screen = pygame.display.set_mode((600, 600))  # Reinitialize the screen
 
     def test_screen_initialization(self):
         """Check if the Pygame screen is set up correctly"""
-        self.assertIsNotNone(screen, "Screen should be initialized")
-        self.assertEqual(screen.get_size(), (600, 600), "Screen size should be 600x600")
+        self.assertIsNotNone(self.screen, "Screen should be initialized")
+        self.assertEqual(self.screen.get_size(), (600, 600), "Screen size should be 600x600")
 
     def test_mouse_click_event(self):
         """Simulate a mouse click and check if it registers correctly"""
